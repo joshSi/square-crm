@@ -1,11 +1,17 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require("express");
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// body parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// routes
+app.use("/api/customers", require("./routes/customers"));
+app.use("/api/groups", require("./routes/groups"));
+
+const port = 3000;
+app.listen(port, () => console.log(`Listening on port ${port}...`));
