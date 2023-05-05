@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 app.use("/api/customers", require("./routes/customers"));
 app.use("/api/groups", require("./routes/groups"));
+app.use("/api/catalog", require("./routes/catalog"));
 
 const port = 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
