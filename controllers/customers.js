@@ -7,7 +7,7 @@ const createCustomer = asyncHandler(async (req, res) => {
 });
 
 const searchCustomers = asyncHandler(async (req, res) => {
-  const customers = await customersService.searchCustomers(req.body);
+  const customers = await customersService.searchCustomers(req.query);
   res.send(customers);
 });
 

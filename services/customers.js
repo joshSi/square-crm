@@ -22,8 +22,30 @@ const createCustomer = async (createObject) => {
   }
 };
 
-const searchCustomers = async (searchObject) => {
+const searchCustomers = async (query) => {
   try {
+    const { groupIds } = query;
+
+    const attribute = Array.isArray(groupIds) ? "all" : "any";
+    const groupIdsArray =
+      groupIds == undefined
+        ? []
+        : Array.isArray(groupIds)
+        ? groupIds
+        : groupIds.includes(",")
+        ? groupIds.split(",")
+        : [groupIds];
+
+    const searchObject = {
+      query: {
+        filter: {
+          groupIds: {
+            [attribute]: groupIdsArray,
+          },
+        },
+      },
+    };
+
     const response = await customersApi.searchCustomers(searchObject);
     const customers = JSONbig.parse(
       JSONbig.stringify(response.result.customers)
