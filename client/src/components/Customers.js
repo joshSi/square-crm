@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Container } from "react-bootstrap";
 import Customer from "./Customer";
 import Filter from "./Filter";
@@ -8,7 +8,18 @@ const Customers = () => {
   const [data, setData] = useState({ customers: [], groups: [] });
   const [filter, setFilter] = useState({ groupIds: {} });
 
-  const createQuery = () => {
+  const fetchGroups = useCallback(async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/customergroups", {
+        method: "GET",
+      });
+      return await response.json();
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  }, []);
+
+  const createQuery = useCallback(() => {
     let query = "";
 
     for (const category in filter) {
@@ -26,9 +37,9 @@ const Customers = () => {
 
     console.log("query: ", query);
     return query;
-  };
+  }, [filter]);
 
-  const fetchCustomers = async () => {
+  const fetchCustomers = useCallback(async () => {
     try {
       const query = createQuery();
       const response = await fetch(
@@ -41,49 +52,36 @@ const Customers = () => {
     } catch (error) {
       console.error("Error: ", error);
     }
-  };
-
-  const fetchGroups = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/customergroups", {
-        method: "GET",
-      });
-      return await response.json();
-    } catch (error) {
-      console.error("Error: ", error);
-    }
-  };
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-
-      const [customers, groups] = await Promise.all([
-        await fetchCustomers(),
-        await fetchGroups(),
-      ]);
-
-      setData({ customers, groups });
-      setLoading(false);
-    } catch (error) {
-      console.error("Error: ", error);
-    }
-  };
-
-  const handleChange = (event) => {
-    setFilter({
-      ...filter,
-      groupIds: {
-        ...filter.groupIds,
-        [event.target.name]: event.target.checked,
-      },
-    });
-    createQuery();
-  };
+  }, [createQuery]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [customers, groups] = await Promise.all([
+          fetchCustomers(),
+          fetchGroups(),
+        ]);
+
+        setData({ customers, groups });
+        setLoading(false);
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    };
+
     fetchData();
-  }, []);
+  }, [fetchCustomers, fetchGroups]);
+
+  const handleChange = (event) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      groupIds: {
+        ...prevFilter.groupIds,
+        [event.target.name]: event.target.checked,
+      },
+    }));
+  };
 
   return (
     <>

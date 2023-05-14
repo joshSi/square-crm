@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import Customers from "./components/Customers";
-import Catalog from "./components/Catalog";
+import Catalog from "./pages/Catalog";
 
 const App = () => {
   return (
