@@ -83,24 +83,22 @@ const Customers = () => {
     }));
   };
 
+  if (loading) return <Container>Loading...</Container>;
+
   return (
-    <>
-      {loading ? (
-        <Container>Loading...</Container>
-      ) : (
-        <Container>
-          <Filter
-            name="Groups"
-            data={data.groups}
-            state={filter.groupIds}
-            handleChange={handleChange}
-          />
-          {data.customers.map((customer) => {
+    <Container>
+      <Filter
+        name="Groups"
+        data={data.groups}
+        state={filter.groupIds}
+        handleChange={handleChange}
+      />
+      {!data.customers
+        ? "No results found"
+        : data.customers.map((customer) => {
             return <Customer key={customer.id} {...customer} />;
           })}
-        </Container>
-      )}
-    </>
+    </Container>
   );
 };
 
