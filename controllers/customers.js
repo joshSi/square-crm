@@ -1,5 +1,6 @@
 const asyncHandler = require("../utils/async");
 const customersService = require("../services/customers");
+const customerGroupsService = require("../services/customerGroups");
 
 const createCustomer = asyncHandler(async (req, res) => {
   const customer = await customersService.createCustomer(req.body);
@@ -13,6 +14,13 @@ const searchCustomers = asyncHandler(async (req, res) => {
 
 const retrieveCustomer = asyncHandler(async (req, res) => {
   const customer = await customersService.retrieveCustomer(req.params.id);
+  if (customer.groupIds) {
+    customer.groups = await Promise.all(
+      customer.groupIds.map(async (groupId) => {
+        return await customerGroupsService.retrieveCustomerGroup(groupId);
+      })
+    );
+  }
   res.send(customer);
 });
 
