@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Container } from "react-bootstrap";
-import CatalogObject from "./CatalogObject";
-import Filter from "./Filter";
+import CatalogObject from "../components/CatalogObject";
+import Filter from "../components/Filter";
 
 const Catalog = () => {
   const [loading, setLoading] = useState(false);

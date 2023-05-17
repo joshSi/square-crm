@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Container } from "react-bootstrap";
-import Customer from "./Customer";
-import Filter from "./Filter";
+import Customer from "../components/Customer";
+import Filter from "../components/Filter";
 
 const Customers = () => {
   const [loading, setLoading] = useState(false);

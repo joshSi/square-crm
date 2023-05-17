@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Container } from "react-bootstrap";
-import Order from "./Order";
-import Filter from "./Filter";
+import Order from "../components/Order";
+import Filter from "../components/Filter";
 
 const Orders = () => {
   const [loading, setLoading] = useState(false);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Container, Card, ListGroup, Row, Col } from "react-bootstrap";
 
-const CustomerProfile = () => {
+const Customer = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({ customer: {} });
@@ -110,4 +110,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default Customer;
