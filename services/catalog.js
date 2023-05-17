@@ -24,8 +24,21 @@ const upsertCatalogObject = async (upsertObject) => {
   }
 };
 
-const searchCatalogObjects = async (searchObject) => {
+const searchCatalogObjects = async (query) => {
   try {
+    const { objectTypes } = query;
+
+    const objectTypesArray =
+      objectTypes == undefined
+        ? []
+        : Array.isArray(objectTypes)
+        ? objectTypes
+        : objectTypes.includes(",")
+        ? objectTypes.split(",")
+        : [objectTypes];
+
+    const searchObject = { objectTypes: objectTypesArray };
+
     const response = await catalogApi.searchCatalogObjects(searchObject);
     const catalogObjects = JSONbig.parse(
       JSONbig.stringify(response.result.objects)

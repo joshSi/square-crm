@@ -7,7 +7,7 @@ const createCatalogObject = asyncHandler(async (req, res) => {
 });
 
 const searchCatalogObjects = asyncHandler(async (req, res) => {
-  const catalogObjects = await catalogService.searchCatalogObjects(req.body);
+  const catalogObjects = await catalogService.searchCatalogObjects(req.query);
   res.send(catalogObjects);
 });
 
