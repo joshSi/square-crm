@@ -10,7 +10,11 @@ const Filter = ({ name, data, state, handleChange }) => {
           {data.map((item) => (
             <Form.Check
               type="checkbox"
-              label={item.name}
+              label={
+                name == "Customers"
+                  ? `${item.givenName} ${item.familyName}`
+                  : item.name
+              }
               key={item.id}
               name={item.id}
               checked={state[item.id]}

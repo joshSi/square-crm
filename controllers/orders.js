@@ -7,7 +7,7 @@ const createOrder = asyncHandler(async (req, res) => {
 });
 
 const searchOrders = asyncHandler(async (req, res) => {
-  const orders = await ordersService.searchOrders(req.body);
+  const orders = await ordersService.searchOrders(req.query);
   res.send(orders);
 });
 

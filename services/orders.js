@@ -7,13 +7,15 @@ const client = new Client({
   environment: Environment.Sandbox,
 });
 
+const locationId = process.env.SQUARE_LOCATION_ID;
+
 const { ordersApi } = client;
 
 const createOrder = async (createObject) => {
   try {
     const response = await ordersApi.createOrder({
       idempotencyKey: randomUUID(),
-      ...createObject,
+      order: { locationId, ...createObject },
     });
     const order = JSONbig.parse(JSONbig.stringify(response.result.order));
     return order;
@@ -22,8 +24,30 @@ const createOrder = async (createObject) => {
   }
 };
 
-const searchOrders = async (searchObject) => {
+const searchOrders = async (query) => {
   try {
+    const { customerIds } = query;
+
+    const customerIdsArray =
+      customerIds == undefined
+        ? []
+        : Array.isArray(customerIds)
+        ? customerIds
+        : customerIds.includes(",")
+        ? customerIds.split(",")
+        : [customerIds];
+
+    const searchObject = {
+      locationIds: [locationId],
+      query: {
+        filter: {
+          customerFilter: {
+            customerIds: customerIdsArray,
+          },
+        },
+      },
+    };
+
     const response = await ordersApi.searchOrders(searchObject);
     const orders = JSONbig.parse(JSONbig.stringify(response.result.orders));
     return orders;
@@ -44,7 +68,13 @@ const retrieveOrder = async (orderId) => {
 
 const updateOrder = async (orderId, updateObject) => {
   try {
-    const response = await ordersApi.updateOrder(orderId, updateObject);
+    const response = await ordersApi.updateOrder(orderId, {
+      idempotencyKey: randomUUID(),
+      order: {
+        locationId,
+        ...updateObject,
+      },
+    });
     const order = JSONbig.parse(JSONbig.stringify(response.result.order));
     return order;
   } catch (error) {
