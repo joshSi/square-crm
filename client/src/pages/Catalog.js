@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Container } from "react-bootstrap";
-import CatalogObject from "../components/CatalogObject";
+import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Filter from "../components/Filter";
+import CatalogObject from "../components/CatalogObject";
 
 const Catalog = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({ objectTypes: {} });
@@ -24,7 +26,6 @@ const Catalog = () => {
       }
     }
 
-    console.log("query: ", query);
     return query;
   }, [filter]);
 
@@ -69,13 +70,20 @@ const Catalog = () => {
   ];
 
   return (
-    <Container>
-      <Filter
-        name="Types"
-        data={objectTypes}
-        state={filter.objectTypes}
-        handleChange={handleChange}
-      />
+    <Container className="pt-3">
+      <Row className="g-3 justify-content-start">
+        <Col className="col-auto">
+          <Filter
+            name="Types"
+            data={objectTypes}
+            state={filter.objectTypes}
+            handleChange={handleChange}
+          />
+        </Col>
+        <Col className="col-auto">
+          <Button onClick={() => navigate("form")}>+ Catalog Object</Button>
+        </Col>
+      </Row>
       {!data
         ? "No results found"
         : data.map((catalogObject) => {

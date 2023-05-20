@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Catalog from "./pages/Catalog";
 import CatalogObject from "./pages/CatalogObject";
+import CatalogForm from "./components/forms/catalog";
 import Customers from "./pages/Customers";
 import Customer from "./pages/Customer";
 import Orders from "./pages/Orders";
@@ -17,6 +18,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog/form" element={<CatalogForm />} />
           <Route path="/catalog/:id" element={<CatalogObject />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/:id" element={<Customer />} />
