@@ -360,7 +360,7 @@ const CatalogItem = (props) => {
               <Button onClick={addItemVariation}>+ Item Variation</Button>
             </Col>
             <Col className="col-auto">
-              <Button onClick={handleSubmit}>Submit</Button>
+              <Button onClick={() => handleSubmit(item.type)}>Submit</Button>
             </Col>
           </>
         )}

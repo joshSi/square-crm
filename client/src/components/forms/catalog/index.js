@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form } from "react-bootstrap";
 import CatalogItem from "./CatalogItem";
+import CatalogModifierList from "./CatalogModifierList";
+import CatalogTax from "./CatalogTax";
 
 const CatalogForm = () => {
   const navigate = useNavigate();
@@ -26,13 +28,44 @@ const CatalogForm = () => {
       ],
     },
   });
+  const [modifierList, setModifierList] = useState({
+    type: "MODIFIER_LIST",
+    id: "#modifierlist1",
+    modifierListData: {
+      name: "",
+      modifiers: [
+        {
+          type: "MODIFIER",
+          id: "#modifier1",
+          modifierData: {
+            name: "",
+            priceMoney: {
+              amount: "",
+              currency: "USD",
+            },
+            modifierListId: "#modifierlist1",
+          },
+        },
+      ],
+    },
+  });
+  const [tax, setTax] = useState({
+    type: "TAX",
+    id: "#tax1",
+    taxData: {
+      name: "",
+      calculationPhase: "TAX_SUBTOTAL_PHASE",
+      inclusionType: "ADDITIVE",
+      percentage: "",
+    },
+  });
 
-  const createCatalogObject = async () => {
+  const createCatalogObject = async (requestObject) => {
     try {
       const response = await fetch("http://localhost:3000/api/catalog", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item),
+        body: JSON.stringify(requestObject),
       });
       return await response.json();
     } catch (error) {
@@ -44,8 +77,16 @@ const CatalogForm = () => {
     setType(event.target.value);
   };
 
-  const handleSubmit = async () => {
-    const { id } = await createCatalogObject();
+  const handleSubmit = async (type) => {
+    const requestObject =
+      type === "ITEM"
+        ? item
+        : type === "MODIFIER_LIST"
+        ? modifierList
+        : type === "TAX"
+        ? tax
+        : "";
+    const { id } = await createCatalogObject(requestObject);
     navigate(`/catalog/${id}`);
   };
 
@@ -65,9 +106,19 @@ const CatalogForm = () => {
           handleSubmit={handleSubmit}
         />
       ) : type === "ModifierList" ? (
-        "CatalogModifierList"
+        <CatalogModifierList
+          modifierList={modifierList}
+          setModifierList={setModifierList}
+          disabled={false}
+          handleSubmit={handleSubmit}
+        />
       ) : type === "Tax" ? (
-        "CatalogTax"
+        <CatalogTax
+          tax={tax}
+          setTax={setTax}
+          disabled={false}
+          handleSubmit={handleSubmit}
+        />
       ) : (
         ""
       )}
