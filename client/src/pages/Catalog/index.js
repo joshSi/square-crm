@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import Filter from "../components/Filter";
-import CatalogObject from "../components/CatalogObject";
+import { Container, Row, Col } from "react-bootstrap";
+import Filter from "../../components/Filter";
+import NavButton from "../../components/NavButton";
+import Header from "../../components/Header";
+import CatalogObject from "./components/CatalogObject";
 
 const Catalog = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({ objectTypes: {} });
@@ -68,6 +68,8 @@ const Catalog = () => {
     { id: "MODIFIER_LIST", name: "MODIFIER_LIST" },
     { id: "TAX", name: "TAX" },
   ];
+  const headerLabels = ["ID", "Type", "Name", "Options"];
+  const navButtonInfo = { name: "+ Catalog Object", link: "form" };
 
   return (
     <Container className="pt-3">
@@ -81,14 +83,23 @@ const Catalog = () => {
           />
         </Col>
         <Col className="col-auto">
-          <Button onClick={() => navigate("form")}>+ Catalog Object</Button>
+          <NavButton {...navButtonInfo} />
         </Col>
       </Row>
-      {!data
-        ? "No results found"
-        : data.map((catalogObject) => {
-            return <CatalogObject key={catalogObject.id} {...catalogObject} />;
-          })}
+      <Row className="g-3 pt-3 row-cols-1">
+        <Col>
+          <Header labels={headerLabels} />
+        </Col>
+        {!data
+          ? "No results found"
+          : data.map((catalogObject) => {
+              return (
+                <Col>
+                  <CatalogObject key={catalogObject.id} {...catalogObject} />
+                </Col>
+              );
+            })}
+      </Row>
     </Container>
   );
 };

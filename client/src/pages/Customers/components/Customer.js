@@ -6,25 +6,25 @@ const Customer = (props) => {
   return (
     <Card>
       <Card.Body>
-        <Row>
-          <Col sm={3}>
+        <Row className="g-3 row-cols-4">
+          <Col>
             <Link to={`${props.id}`}>
-              <Card.Title>
-                {props.givenName} {props.familyName}
-              </Card.Title>
+              <Card.Text>{props.id}</Card.Text>
             </Link>
-            <Card.Subtitle className="mb-2 text-muted">
-              {props.phoneNumber}
-            </Card.Subtitle>
           </Col>
-          <Col sm={3}>
+          <Col>
+            <Card.Text>
+              {props.givenName} {props.familyName}
+            </Card.Text>
+          </Col>
+          <Col>
+            <Card.Text>{props.phoneNumber}</Card.Text>
+          </Col>
+          <Col>
             <Card.Text>
               {props.address.locality},{" "}
               {props.address.administrativeDistrictLevel1}
             </Card.Text>
-          </Col>
-          <Col sm={6}>
-            <Card.Text>{props.note}</Card.Text>
           </Col>
         </Row>
       </Card.Body>

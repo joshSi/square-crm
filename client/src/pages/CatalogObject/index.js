@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import CatalogItem from "../components/forms/catalog/CatalogItem";
-import CatalogModifierList from "../components/forms/catalog/CatalogModifierList";
-import CatalogTax from "../components/forms/catalog/CatalogTax";
+import CatalogItem from "../CatalogObjectForm/components/CatalogItem";
+import CatalogModifierList from "../CatalogObjectForm/components/CatalogModifierList";
+import CatalogTax from "../CatalogObjectForm/components/CatalogTax";
 
 const CatalogObject = () => {
   const location = useLocation();

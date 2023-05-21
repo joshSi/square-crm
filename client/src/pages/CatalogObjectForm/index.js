@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form } from "react-bootstrap";
-import CatalogItem from "./CatalogItem";
-import CatalogModifierList from "./CatalogModifierList";
-import CatalogTax from "./CatalogTax";
+import CatalogItem from "./components/CatalogItem";
+import CatalogModifierList from "./components/CatalogModifierList";
+import CatalogTax from "./components/CatalogTax";
 
-const CatalogForm = () => {
+const CatalogObjectForm = () => {
   const navigate = useNavigate();
   const [type, setType] = useState("");
   const [item, setItem] = useState({
@@ -126,4 +126,4 @@ const CatalogForm = () => {
   );
 };
 
-export default CatalogForm;
+export default CatalogObjectForm;

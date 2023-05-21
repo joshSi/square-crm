@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Container } from "react-bootstrap";
-import Order from "../components/Order";
-import Filter from "../components/Filter";
+import { Container, Row, Col } from "react-bootstrap";
+import Filter from "../../components/Filter";
+import NavButton from "../../components/NavButton";
+import Header from "../../components/Header";
+import Order from "./components/Order";
 
 const Orders = () => {
   const [loading, setLoading] = useState(false);
@@ -35,7 +37,6 @@ const Orders = () => {
       }
     }
 
-    console.log("query: ", query);
     return query;
   }, [filter]);
 
@@ -85,19 +86,38 @@ const Orders = () => {
 
   if (loading) return <Container>Loading...</Container>;
 
+  const headerLabels = ["ID", "State", "Items", "Total"];
+  const navButtonInfo = { name: "+ Order", link: "form" };
+
   return (
-    <Container>
-      <Filter
-        name="Customers"
-        data={data.customers}
-        state={filter.customerIds}
-        handleChange={handleChange}
-      />
-      {!data.orders
-        ? "No results found"
-        : data.orders.map((order) => {
-            return <Order key={order.id} {...order} />;
-          })}
+    <Container className="pt-3">
+      <Row className="g-3 justify-content-start">
+        <Col className="col-auto">
+          <Filter
+            name="Customers"
+            data={data.customers}
+            state={filter.customerIds}
+            handleChange={handleChange}
+          />
+        </Col>
+        <Col className="col-auto">
+          <NavButton {...navButtonInfo} />
+        </Col>
+      </Row>
+      <Row className="g-3 pt-3 row-cols-1">
+        <Col>
+          <Header labels={headerLabels} />
+        </Col>
+        {!data.orders
+          ? "No results found"
+          : data.orders.map((order) => {
+              return (
+                <Col>
+                  <Order key={order.id} {...order} />
+                </Col>
+              );
+            })}
+      </Row>
     </Container>
   );
 };

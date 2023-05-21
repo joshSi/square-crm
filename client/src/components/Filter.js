@@ -5,13 +5,13 @@ const Filter = ({ name, data, state, handleChange }) => {
   return (
     <Dropdown>
       <Dropdown.Toggle>{name}</Dropdown.Toggle>
-      <Dropdown.Menu>
+      <Dropdown.Menu className="p-2">
         <Form>
           {data.map((item) => (
             <Form.Check
               type="checkbox"
               label={
-                name == "Customers"
+                name === "Customers"
                   ? `${item.givenName} ${item.familyName}`
                   : item.name
               }

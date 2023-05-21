@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Container } from "react-bootstrap";
-import Customer from "../components/Customer";
-import Filter from "../components/Filter";
+import { Container, Row, Col } from "react-bootstrap";
+import Filter from "../../components/Filter";
+import NavButton from "../../components/NavButton";
+import Header from "../../components/Header";
+import Customer from "./components/Customer";
 
 const Customers = () => {
   const [loading, setLoading] = useState(false);
@@ -35,7 +37,6 @@ const Customers = () => {
       }
     }
 
-    console.log("query: ", query);
     return query;
   }, [filter]);
 
@@ -85,19 +86,38 @@ const Customers = () => {
 
   if (loading) return <Container>Loading...</Container>;
 
+  const headerLabels = ["ID", "Name", "Phone", "Locality"];
+  const navButtonInfo = { name: "+ Customer", link: "form" };
+
   return (
-    <Container>
-      <Filter
-        name="Groups"
-        data={data.groups}
-        state={filter.groupIds}
-        handleChange={handleChange}
-      />
-      {!data.customers
-        ? "No results found"
-        : data.customers.map((customer) => {
-            return <Customer key={customer.id} {...customer} />;
-          })}
+    <Container className="pt-3">
+      <Row className="g-3 justify-content-start">
+        <Col className="col-auto">
+          <Filter
+            name="Groups"
+            data={data.groups}
+            state={filter.groupIds}
+            handleChange={handleChange}
+          />
+        </Col>
+        <Col className="col-auto">
+          <NavButton {...navButtonInfo} />
+        </Col>
+      </Row>
+      <Row className="g-3 pt-3 row-cols-1">
+        <Col>
+          <Header labels={headerLabels} />
+        </Col>
+        {!data.customers
+          ? "No results found"
+          : data.customers.map((customer) => {
+              return (
+                <Col>
+                  <Customer key={customer.id} {...customer} />
+                </Col>
+              );
+            })}
+      </Row>
     </Container>
   );
 };
