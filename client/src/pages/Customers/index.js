@@ -87,21 +87,28 @@ const Customers = () => {
   if (loading) return <Container>Loading...</Container>;
 
   const headerLabels = ["ID", "Name", "Phone", "Locality"];
-  const navButtonInfo = { name: "+ Customer", link: "form" };
+  const navButton1Info = { name: "+ Customer", link: "form" };
+  const navButton2Info = {
+    name: "-> Customer Groups",
+    link: "/customergroups",
+  };
 
   return (
     <Container className="pt-3">
       <Row className="g-3 justify-content-start">
         <Col className="col-auto">
           <Filter
-            name="Groups"
+            name="Customer Groups"
             data={data.groups}
             state={filter.groupIds}
             handleChange={handleChange}
           />
         </Col>
         <Col className="col-auto">
-          <NavButton {...navButtonInfo} />
+          <NavButton {...navButton1Info} />
+        </Col>
+        <Col className="col-auto">
+          <NavButton {...navButton2Info} />
         </Col>
       </Row>
       <Row className="g-3 pt-3 row-cols-1">
